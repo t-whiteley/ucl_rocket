@@ -1,4 +1,4 @@
-![alt text](https://github.com/t-whiteley/ucl_rocket/tree/master/airbrakes/control_system/first_model/block_diagram.jpg?raw=True)
+![block diagram](https://github.com/t-whiteley/ucl_rocket/tree/master/airbrakes/control_system/first_model/block_diagram.jpg?raw=True)
 
 
 TODO
@@ -20,8 +20,8 @@ so whats going on
 sources
 * https://www.apogeerockets.com/Peak-of-Flight/Newsletter599
 * https://www.rocketryforum.com/threads/active-altitude-control.174855/
-* https://www.reddit.com/r/ControlTheory/comments/sliz1c transfer_function_for_rocket_airbrake_pid_control/
-* https://www.reddit.com/r/AerospaceEngineering/comments/slj0lm transfer_function_for_rocket_airbrake_pid_control/
+* https://www.reddit.com/r/ControlTheory/comments/sliz1c/transfer_function_for_rocket_airbrake_pid_control/
+* https://www.reddit.com/r/AerospaceEngineering/comments/slj0lm/transfer_function_for_rocket_airbrake_pid_control/
 * https://www.rocketryforum.com/threads/active-altitude-control.174855/
 * https://www.reddit.com/r/rocketry/comments/rsfw64/predicting_rocket_trajectory_using_rk4_integration/
 * https://github.com/joshua-koehler/airbrakes/blob/master/airbrakes.ino
