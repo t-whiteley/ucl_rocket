@@ -1,7 +1,7 @@
 TODO
 * improve controller to pid - maybe not necessary
 * add paramter angle of attack
-* lookup tables to reduce computation??
+* lookup tables to reduce computation?? FEA and CFD??
 * add kalman filter
 
 notes on my implementation
@@ -13,3 +13,12 @@ so whats going on
 * data is fed into predict_apogee(), this is a file which uses 4th order runge-kutte numerical differential equation solver to predict the current apogee in real time before achieving it
 * back in model.py, the difference in desired vs current (predicted) apogee is the input to a proportional controller
 * the controller changes the cross sectional area of the rocket, as a mechanical airbrake would, the effects of the servo reaction are not yet implemented
+
+sources
+* https://www.apogeerockets.com/Peak-of-Flight/Newsletter599
+* https://www.rocketryforum.com/threads/active-altitude-control.174855/
+* https://www.reddit.com/r/ControlTheory/comments/sliz1c/transfer_function_for_rocket_airbrake_pid_control/
+* https://www.reddit.com/r/AerospaceEngineering/comments/slj0lm/transfer_function_for_rocket_airbrake_pid_control/
+* https://www.rocketryforum.com/threads/active-altitude-control.174855/
+* https://www.reddit.com/r/rocketry/comments/rsfw64/predicting_rocket_trajectory_using_rk4_integration/
+* https://github.com/joshua-koehler/airbrakes/blob/master/airbrakes.ino
