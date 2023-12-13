@@ -1,4 +1,4 @@
-![alt text](https://github.com/t-whiteley/ucl_rocket/tree/master/airbrakes/control_system/first_model/block_diagram.jpg?raw=True)
+![block diagram](https://github.com/t-whiteley/ucl_rocket/tree/master/airbrakes/control_system/first_model/block_diagram.jpg?raw=True)
 
 TODO
 * by putting real params, estimate change in area needed (for CAD) and torque needed (component selection)
