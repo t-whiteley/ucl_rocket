@@ -1,9 +1,10 @@
 ![alt text](https://github.com/t-whiteley/ucl_rocket/tree/master/airbrakes/control_system/first_model/block_diagram.jpg?raw=True)
 
-
 TODO
-* improve model controller to pid - maybe not necessary
+* by putting real params, estimate change in area needed (for CAD) and torque needed (component selection)
+* can only model signal to servo when geometry (CAD) is known, add saturation block to control
 * add paramter angle of attack
+* improve thrust curve
 * lookup tables to reduce computation?? FEA and CFD??
 * add kalman filter
 
@@ -20,8 +21,9 @@ so whats going on
 sources
 * https://www.apogeerockets.com/Peak-of-Flight/Newsletter599
 * https://www.rocketryforum.com/threads/active-altitude-control.174855/
-* https://www.reddit.com/r/ControlTheory/comments/sliz1c transfer_function_for_rocket_airbrake_pid_control/
-* https://www.reddit.com/r/AerospaceEngineering/comments/slj0lm transfer_function_for_rocket_airbrake_pid_control/
+* https://www.reddit.com/r/ControlTheory/comments/sliz1c/transfer_function_for_rocket_airbrake_pid_control/
+* https://www.reddit.com/r/AerospaceEngineering/comments/slj0lm/transfer_function_for_rocket_airbrake_pid_control/
 * https://www.rocketryforum.com/threads/active-altitude-control.174855/
 * https://www.reddit.com/r/rocketry/comments/rsfw64/predicting_rocket_trajectory_using_rk4_integration/
 * https://github.com/joshua-koehler/airbrakes/blob/master/airbrakes.ino
+* https://offroad.engineering.queensu.ca/wp-content/uploads/2020/05/MECH-460-Final-Report-Team-03.pdf (good programming block diagram)
