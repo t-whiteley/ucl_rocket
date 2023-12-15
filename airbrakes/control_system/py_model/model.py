@@ -71,7 +71,8 @@ for t in t_axis:
         sig = kp * curr_sig
         if servo_sig[-1]:
             sig += kd * (curr_sig - servo_sig[-1])/dt
-            sig += ki * sum(servo_sig)
+            # can add moving sum to find integral faster each time
+            sig += ki * sum(servo_sig) * dt
         
 
         area_adj += sig
@@ -91,6 +92,7 @@ for t in t_axis:
 fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(8, 6))
 
 # Plot in the first subplot
+axes[0].plot(t_axis, a[1:], label="a (no control)")
 axes[0].plot(t_axis, s[1:], label="height (no control)")
 axes[0].plot(t_axis, s_adj[1:], label="height (PID control)")
 axes[0].plot(t_axis, ap_pred[1:], color='red', label="apogee_predicted")

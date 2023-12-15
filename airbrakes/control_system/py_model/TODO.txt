@@ -1,16 +1,25 @@
-![block diagram](https://github.com/t-whiteley/ucl_rocket/tree/master/airbrakes/control_system/first_model/block_diagram.jpg?raw=True)
-
 TODO
-* by putting real params, estimate change in area needed (for CAD) and torque needed (component selection)
-* can only model signal to servo when geometry (CAD) is known, add saturation block to control
+* estimate things like change in area needed, torque of servo needed
+* can only model signal to servo when geometry (CAD) is known, (+saturation block)
 * add paramter angle of attack
 * improve thrust curve
 * lookup tables to reduce computation?? FEA and CFD??
+    * angle of protrusion vs drag force
+* overall reduce time and memory complexity of implementation
 * add kalman filter
+* start final model, send modelled data with noise to a c script to test algorithms
+
+
+questions and planning ahead
+* which rocket is it going to be on, do we have CAD?
+* move ahead with CFD?
+* where to add CAD file in fusion workspace0
+
 
 notes on my implementation
 * i'm assuming constant cd in the simulation however this is only to generate data for acceleration, velocity, and displacement, my algorithm is adaptive
 * model is fragile, for some reason values in memory are huge, need to look closer at why
+
 
 so whats going on
 * apart from the controller in the main loop, most variables in model.py are trying to simluate the data that the algorithm would receive
@@ -18,7 +27,9 @@ so whats going on
 * back in model.py, the difference in desired vs current (predicted) apogee is the input to a proportional controller
 * the controller changes the cross sectional area of the rocket, as a mechanical airbrake would, the effects of the servo reaction are not yet implemented
 
+
 sources
+* https://images.squarespace-cdn.com/content/v1/5150eb0ee4b0b4f3e8fc6846/1599373292462-G3E26WVQEVHBFLYOTPRK/airbrakes1.JPG?format=2500w
 * https://www.apogeerockets.com/Peak-of-Flight/Newsletter599
 * https://www.rocketryforum.com/threads/active-altitude-control.174855/
 * https://www.reddit.com/r/ControlTheory/comments/sliz1c/transfer_function_for_rocket_airbrake_pid_control/
@@ -27,3 +38,10 @@ sources
 * https://www.reddit.com/r/rocketry/comments/rsfw64/predicting_rocket_trajectory_using_rk4_integration/
 * https://github.com/joshua-koehler/airbrakes/blob/master/airbrakes.ino
 * https://offroad.engineering.queensu.ca/wp-content/uploads/2020/05/MECH-460-Final-Report-Team-03.pdf (good programming block diagram)
+
+
+sources for CFD
+* https://www.apogeerockets.com/Peak-of-Flight/Newsletter599
+    * https://www.apogeerockets.com/images/newsletter/Newsletter-599-Images/Newsletter-599-Figure-8-Lg.jpg
+* https://www.reddit.com/r/CFD/comments/iedrza/what_cfd_analysis_must_be_done_for_a_sounding/
+* https://perpetual-motion.blog/2019/09/22/creating-a-mesh-for-cfd-analysis-on-rocket-air-brakes-using-gmsh/

@@ -25,6 +25,7 @@ def KF_vel(v_n, Cd, rho, m, area, g, h):
 
 def predict_apogee(v_curr, s_curr, a_curr, rho, m, area, g):
     h = 0.1
+    
     Cd = drag_coeff(a_curr, v_curr, g, m, rho, area)
 
     v_hist = []
@@ -37,8 +38,3 @@ def predict_apogee(v_curr, s_curr, a_curr, rho, m, area, g):
     # print("predicted apogee: " + str(apo_pred))
     # print(Cd, apo_pred)
     return apo_pred
-
-
-
-A = 1000
-predict_apogee(100, 10, -1, 1, 1, A, 10)
