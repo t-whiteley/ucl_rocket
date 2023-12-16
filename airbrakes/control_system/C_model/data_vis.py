@@ -17,6 +17,7 @@ df_filtered = df[non_zero_indices]
 axs[0].plot(df_filtered['Time'], df_filtered['Ap_pred'], label='Predicted apogee')
 axs[0].axhline(y=0, color='black')
 axs[0].axhline(y=ap, color='red', linestyle='--', label='Apogee: {}m'.format(int(ap)))
+axs[0].set_ylim(-3*ap/2, 3*ap/2)
 axs[0].legend()
 
 # Bottom plot (subplot 2)

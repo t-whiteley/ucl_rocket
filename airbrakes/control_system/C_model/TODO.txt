@@ -1,4 +1,15 @@
-* make density a function of height?
-* make mass function of time
-* find coeff of drag dynamically
-* model isn't great when rocket reaches terminal v on way up
+TODO
+* improve PID (include tuner?) and motor response
+* change cd to Fd in equations via CFD and lookup table
+* make atmos. density a function of height?
+* make rocket mass function of time?
+* improve everything for noise robustness
+    * filterring data 
+    * improve conditions to start/stop for noise robustness
+    * generate noise in data_generate()
+* model isn't great when rocket reaches terminal v on way up?
+
+
+PID notes
+* too much initial overshoot stops rocket from reaching desired apogee
+* interesting: oscillating 0.0001, 0.005, 0.00001, des=800

@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <math.h>
 
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 #define FREQ 120
 #define DT 0.01
@@ -11,20 +12,23 @@
 #define RHO 1.293
 #define MASS 5
 #define DESIRED_APOGEE 800
-
-#define MIN(a, b) ((a) < (b) ? (a) : (b))
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MOTOR_STEP 0.01
 
 
-// (TODO) improve by CFD or other means
+
+
+
+// (TODO) improve by CFD with lookup table or other means
 float drag_coeff() {
     return 0.1;
 }
+
 
 // derivative of v for numeric solution using runge-kutta
 float k_vel(float v, float cd, float A) {
     return (-GRAV_CONST - cd*RHO/(2*MASS) * A * v*v);
 }
+
 
 // numeric solution to find velocity at every dt until apogee
 float RK_vel(float v, float cd, float A, float h_RK) {
@@ -35,6 +39,7 @@ float RK_vel(float v, float cd, float A, float h_RK) {
     float v_next = v + h_RK/6 * (k1 + 2*k2 + 2*k3 + k4);
     return v_next;
 }
+
 
 // solve ODE numerically to find height at all points
 float predict_apogee(float v, float h, float A) {
@@ -66,59 +71,50 @@ float PID(float e, float* e_prior, float* i_prior, float kp, float ki, float kd,
 
 
 int main() {
-    // PARAMS FOR MODEL - DEL FOR REAL ONE
+    FILE *csv = fopen("output.csv", "w");
+    fprintf(csv, "Time,Acceleration,Velocity,Altitude,Ap_pred,A\n");
     Data d0 = {0, 0, 0, DT};
     Data* d = &d0;
     // float seconds = 1.f / FREQ;
     // unsigned int micro = (unsigned int)(seconds * 1e6);
 
-    // PARAMS FOR DATA VIS - DEL FOR REAL ONE
-    FILE *csv = fopen("output.csv", "w");
-    fprintf(csv, "Time,Acceleration,Velocity,Altitude,Ap_pred,A\n");
-
 
     // setup
     float t = 0;
-    float A_min = 0.25;
-    float A = 0.25;
-    float cd = 0.005;
-
+    float A_min = 0.25, A = 0.25;
+    float cd = 0.1;
+    float ap_pred;
 
     // setup PID and ramp
-    float error_prior = 0;
-    float integral_prior = 0;
-    float kp = 0.0001;
-    float ki = 0.005;
-    float kd = 0;
-    float b = 0;
-    float sig_des = 0;
-    float motor_step = 0.005;
+    float error_prior = 0, integral_prior = 0;
+    float kp = 0.0001, ki = 0.01, kd = 0.00001, b = 0;
+    float sig_des, sign;
 
     while (1) {
+        // usleep(micro);
+        // printf("t: %f, a: %f, v: %f, h: %f\n", t, d->a, d->v, d->h);
+
         if (d->h < 0 && t > 2) {
             break;
         }
-        // THIS IS ALL PARAMS FOR MODEL AND DATA VIS - DEL FOR REAL ONE
-        // usleep(micro);
-        // printf("t: %f, a: %f, v: %f, h: %f\n", t, d->a, d->v, d->h);
+
         cd = drag_coeff();
         d = generate_model_data(d, t, A, cd);
+        float a = d->a, v = d->v, h = d->h;
         t += DT;
-        float a = d->a;
-        float v = d->v;
-        float h = d->h;
 
 
-        // condition to starts control system
-        float ap_pred = 0;
+        // condition to start control system
+        ap_pred = 0;
         if (t > 2 && v > 0) {
             ap_pred = predict_apogee(v, h, A);
             float error = ap_pred - DESIRED_APOGEE;
             sig_des = PID(error, &error_prior, &integral_prior, kp, ki, kd, b);
+            // A += sig_des;
 
-            // motor follows ramp, can move maximum of motor step every interval
-            float sign = (sig_des - A) / fabs(sig_des - A);
-            A += sign * motor_step;
+            // motor follows ramp, can move maximum of motor step every interval towards direction of desired signal
+            sign = (sig_des) / fabs(sig_des);
+            A += sign * MOTOR_STEP;
             A = MAX(A, A_min);
         }
 

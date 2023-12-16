@@ -13,7 +13,7 @@ def k_vel(v, g, Cd, rho, m, area):
 
 # numerical ODE sol from: dv/dt = -g - rhoCd/2m * (Av^2)
 # 4th order runge kutte method
-def KF_vel(v_n, Cd, rho, m, area, g, h):
+def RK_vel(v_n, Cd, rho, m, area, g, h):
     k1 = k_vel(v_n, g, Cd, rho, m, area)
     k2 = k_vel(v_n + h*k1/2, g, Cd, rho, m, area)
     k3 = k_vel(v_n + h*k2/2, g, Cd, rho, m, area)
@@ -30,7 +30,7 @@ def predict_apogee(v_curr, s_curr, a_curr, rho, m, area, g):
 
     v_hist = []
     v = v_curr
-    while (v := KF_vel(v, Cd, rho, m, area, g, h)) > 0:
+    while (v := RK_vel(v, Cd, rho, m, area, g, h)) > 0:
         v_hist.append(v)
         # print(v)
     
