@@ -1,0 +1,4 @@
+* make density a function of height?
+* make mass function of time
+* find coeff of drag dynamically
+* model isn't great when rocket reaches terminal v on way up

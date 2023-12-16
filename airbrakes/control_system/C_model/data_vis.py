@@ -5,17 +5,25 @@ import matplotlib.pyplot as plt
 df = pd.read_csv('output.csv')
 ap = max(df['Altitude'])
 
-# Plot the data
-plt.plot(df['Time'], df['Acceleration'], label='Acceleration')
-plt.plot(df['Time'], df['Velocity'], label='Velocity')
-plt.plot(df['Time'], df['Altitude'], label='Altitude')
+fig, axs = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
 
-# Add labels and legend
+# Top plot (subplot 1)
+axs[0].plot(df['Time'], df['Acceleration'], label='Acceleration')
+axs[0].plot(df['Time'], df['Velocity'], label='Velocity')
+axs[0].plot(df['Time'], df['Altitude'], label='Altitude')
+# axs[0].plot(df['Time'], df['Ap_pred'], label='Predicted apogee')
+non_zero_indices = df['Ap_pred'] != 0
+df_filtered = df[non_zero_indices]
+axs[0].plot(df_filtered['Time'], df_filtered['Ap_pred'], label='Predicted apogee')
+axs[0].axhline(y=0, color='black')
+axs[0].axhline(y=ap, color='red', linestyle='--', label='Apogee: {}m'.format(int(ap)))
+axs[0].legend()
+
+# Bottom plot (subplot 2)
+axs[1].plot(df['Time'], df['A'], label='Servo Signal')
+axs[1].legend()
+
+# Set common labels and show the plot
 plt.xlabel('Time')
-plt.ylabel('Value')
-plt.axhline(y=0, color='black')
-plt.axhline(y=ap, color='red', linestyle='--', label='Apogee: {}m'.format(int(ap)))
-plt.legend()
-
-# Show the plot
+plt.tight_layout()
 plt.show()
