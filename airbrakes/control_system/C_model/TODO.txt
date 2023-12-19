@@ -2,7 +2,7 @@ TODO
 * improve PID (include tuner?) and motor response
 * change cd to Fd in equations via CFD and lookup table
 * make atmos. density a function of height?
-* make rocket mass function of time?
+* make rocket mass a function of time?
 * improve everything for noise robustness
     * filterring data 
     * improve conditions to start/stop for noise robustness
@@ -13,3 +13,9 @@ TODO
 PID notes
 * too much initial overshoot stops rocket from reaching desired apogee
 * interesting: oscillating 0.0001, 0.005, 0.00001, des=800
+
+
+summary of algorithm thus far
+* 4th order runge-kutta to estimate appogee
+* error signal fed to PID
+* PID feeds to step response of servo motor

@@ -1,8 +1,9 @@
-#include "rocket_sim.h"
+#include "IMU_sim.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <math.h>
+#include <time.h>
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
@@ -71,10 +72,18 @@ float PID(float e, float* e_prior, float* i_prior, float kp, float ki, float kd,
 
 
 int main() {
+    srand(time(NULL));
     FILE *csv = fopen("output.csv", "w");
     fprintf(csv, "Time,Acceleration,Velocity,Altitude,Ap_pred,A\n");
-    Data d0 = {0, 0, 0, DT};
-    Data* d = &d0;
+
+    // initialise the IMU
+    IMU* imu = (IMU*)malloc(sizeof(IMU));
+    imu->a[0] = imu->a[1] = imu->a[2] = 0.0;
+    imu->w[0] = imu->w[1] = imu->w[2] = 0.0;
+    imu->dt = DT;
+    imu->a_real = imu->v_real = imu->h_real = 0.0;
+
+
     // float seconds = 1.f / FREQ;
     // unsigned int micro = (unsigned int)(seconds * 1e6);
 
@@ -94,29 +103,30 @@ int main() {
         // usleep(micro);
         // printf("t: %f, a: %f, v: %f, h: %f\n", t, d->a, d->v, d->h);
 
-        if (d->h < 0 && t > 2) {
+        if (imu->h_real < 0 && t > 2) {
             break;
         }
 
         cd = drag_coeff();
-        d = generate_model_data(d, t, A, cd);
-        float a = d->a, v = d->v, h = d->h;
+        imu = generate_model_data(imu, t, A, cd);
+        // CHANGE THIS; VEL AND POS NOT KNOWN, KALMAN FILTER HERE
+        float a = imu->a[0], v = imu->v_real, h = imu->h_real;
         t += DT;
 
 
         // condition to start control system
         ap_pred = 0;
-        if (t > 2 && v > 0) {
-            ap_pred = predict_apogee(v, h, A);
-            float error = ap_pred - DESIRED_APOGEE;
-            sig_des = PID(error, &error_prior, &integral_prior, kp, ki, kd, b);
-            // A += sig_des;
+        // if (t > 2 && v > 0) {
+        //     ap_pred = predict_apogee(v, h, A);
+        //     float error = ap_pred - DESIRED_APOGEE;
+        //     sig_des = PID(error, &error_prior, &integral_prior, kp, ki, kd, b);
+        //     // A += sig_des;
 
-            // motor follows ramp, can move maximum of motor step every interval towards direction of desired signal
-            sign = (sig_des) / fabs(sig_des);
-            A += sign * MOTOR_STEP;
-            A = MAX(A, A_min);
-        }
+        //     // motor follows ramp, can move maximum of motor step every interval towards direction of desired signal
+        //     sign = (sig_des) / fabs(sig_des);
+        //     A += sign * MOTOR_STEP;
+        //     A = MAX(A, A_min);
+        // }
 
         fprintf(csv, "%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n", t, a, v, h, ap_pred, A);
     }
