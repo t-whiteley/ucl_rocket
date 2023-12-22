@@ -1,18 +1,23 @@
 CC = gcc
+CXX = g++
 CFLAGS = -Wall -Wextra -std=c11 -g
+CXXFLAGS = -Wall -Wextra -std=c++11 -g -I thirdparty/
 
-
-SRC = airbrake.c IMU_sim.c
-OBJ = $(SRC:.c=.o)
+SRC_C = airbrake.c IMU_sim.c
+SRC_CPP = kf.cpp
+OBJ = $(SRC_C:.c=.o) $(SRC_CPP:.cpp=.o)
 EXECUTABLE = comp
 
 all: $(EXECUTABLE) run_python
 
 $(EXECUTABLE): $(OBJ)
-	$(CC) $(LDFLAGS) $(OBJ) -o $@
+	$(CXX) $(OBJ) -o $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 output.csv: $(EXECUTABLE)
 	./$(EXECUTABLE)

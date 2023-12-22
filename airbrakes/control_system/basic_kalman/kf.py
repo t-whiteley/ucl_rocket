@@ -1,5 +1,4 @@
 import numpy as np
-from unittest import TestCase
 
 class KF:
     def __init__(self, init_a, init_v, init_h, j_var):
