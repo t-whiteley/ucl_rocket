@@ -16,6 +16,7 @@
 #define MASS 5
 #define DESIRED_APOGEE 750
 #define MOTOR_STEP 0.01
+#define KF_EVERY 10
 
 
 
@@ -69,32 +70,15 @@ float PID(float e, float* e_prior, float* i_prior, float kp, float ki, float kd,
 }
 
 
-float kalman(float a) {
-    // shitty kalman filter implementation for the moment
-    // constants
-    static const float R = 10.0;
-    static const float H = 1.0;
-    static float Q = 10.0;
-    static float P = 0.0;
-    static float a_hat = 500;
-    static float K = 0.0;
-
-    // begin
-    K = P*H/(H*H*P+R);
-    a_hat = a_hat + K*(a-H*a_hat);
-
-    // update error cov
-    P = (1.0-K*H)*P+Q;
-
-    return a_hat;
-}
-
 
 
 int main() {
     srand(time(NULL));
     FILE *csv = fopen("output.csv", "w");
     fprintf(csv, "Time,Accel_noisy,Accel_kalman,Accel_real,Velocity,Alt,Alt_real,Ap_pred,A\n");
+    // float seconds = 1.f / FREQ;
+    // unsigned int micro = (unsigned int)(seconds * 1e6);
+
 
     // initialise the IMU
     IMU* imu = (IMU*)malloc(sizeof(IMU));
@@ -104,22 +88,27 @@ int main() {
     imu->a_real = imu->v_real = imu->h_real = 0.0;
 
 
-    // float seconds = 1.f / FREQ;
-    // unsigned int micro = (unsigned int)(seconds * 1e6);
+    // initialise the kalman filter
+    KF kf(0.0, 0.0, 0.0, 100); // accelerometer variance 0.1
+    int step = 0;
 
 
-    // setup
-    float t = 0;
-    float A_min = 0.25, A = 0.25;
-    float cd = 0.1;
-    float ap_pred;
-    float v = 0;
-    float h = 0;
-
-    // setup PID and ramp
+    // initialise PID and ramp
     float error_prior = 0, integral_prior = 0;
     float kp = 0.0001, ki = 0.01, kd = 0.00001, b = 0;
     float sig_des, sign;
+
+
+    // setup variables
+    float t = 0;
+    float A_min = 0.25, A = 0.25;
+    float cd = 0.1;
+    float v = 0;
+    float h = 0;
+    float ap_pred;
+    float a_f;
+
+
 
     while (1) {
         // usleep(micro);
@@ -132,9 +121,21 @@ int main() {
         cd = drag_coeff();
         imu = generate_model_data(imu, t, A, cd);
         float a = imu->a[0];
-        float a_f = kalman(a); // or low pass idrk
+
+
+        if (!(step++ % KF_EVERY)) {
+            kf.update(a, 100);
+        }
+        kf.predict(DT);
+
+        a_f = a; // apply filterring here
         v = v + a_f * DT;
         h = h + v * DT;
+
+        // a_f = kf.x(0,0);
+        // v = kf.x(1,0);
+        // h = kf.x(2,0);
+
         t += DT;
 
 

@@ -1,5 +1,5 @@
-#ifndef IMU_SIM_H
-#define IMU_SIM_H
+#include <iostream>
+#pragma once
 
 typedef struct IMU {
     float a[3]; // 3 axis accel [x, y, z]
@@ -20,6 +20,3 @@ float accel_curve(float t, float cd, float A, float v);
 float rand_normal();
 IMU* generate_model_data(IMU* data_prev, float t, float A, float cd);
 
-
-
-#endif // IMU_SIM_H

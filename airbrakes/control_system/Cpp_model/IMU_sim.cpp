@@ -12,7 +12,7 @@
 #define GRAV_CONST 9.81
 #define RHO 1.293
 #define MASS 5
-#define MEASUREMENT_VAR 1000
+#define MEASUREMENT_VAR 10
 
 
 

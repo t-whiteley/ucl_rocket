@@ -3,6 +3,7 @@
 #pragma once
 
 class KF {
+    public:
     Eigen::Matrix<float, 3, 1> x;
     Eigen::Matrix<float, 3, 3> P;
     float j;
