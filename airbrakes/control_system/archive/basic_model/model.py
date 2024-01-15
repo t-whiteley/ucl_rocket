@@ -49,7 +49,7 @@ for t in t_axis:
     s_adj.append(s_adj[-1] + v_adj[-1] * dt)
 
 
-    # only during thrust and before apogee
+    # only plot during thrust and before apogee
     if t > thr_time * 1.2 and v_adj[-1] > 0:
         ap_pred.append(predict_apogee(v_adj[-1], s_adj[-1], a_adj[-1], rho, m, area_adj, g))
     else:

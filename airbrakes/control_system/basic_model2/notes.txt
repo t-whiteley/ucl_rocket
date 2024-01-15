@@ -1,0 +1,18 @@
+Descrpiption
+1. filter noise using kalman filter -> measure (h, a), estimate (h, v, a)
+2. esimtate current apogee -> numerical differential eq solver (runge-kutta)
+3. control system -> difference in ap_pred and ap_des to a PID and servo signal
+
+
+Extra
+* can use normal kalman filter with constant a model because near apogee its nearly constant
+* extended kalman filter for non linear system can be used but is complex
+
+
+TODO
+1. make _apogee robust to noise
+2. seperate into a model and main file
+3. make constants capital named constants
+4. make control system more realistic
+5. make kalman filter account for rotation
+6. CFD somewhere - lookup table?

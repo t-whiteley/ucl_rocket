@@ -9,7 +9,7 @@ plt.figure()
 
 DT = 0.1
 NUM_STEPS = 1000
-MEAS_EVERY_STEPS = 10
+MEAS_EVERY_STEPS = 5
 
 
 kf = KF(5.0, 10.0, 15.0, 0.5)
