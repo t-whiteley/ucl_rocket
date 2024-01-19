@@ -1,0 +1,19 @@
+Descrpiption
+1. filter noise using const a. kalman filter -> measure (h, a), estimate (h, v, a)
+2. esimtate current apogee -> numerical differential eq solver (4th order runge-kutta)
+3. control system -> difference in ap_pred and ap_des to a PID and servo signal
+
+
+Extra
+* can use normal kalman filter with constant a model because near apogee its nearly constant
+* extended kalman filter for non linear system can be used but is complex
+
+
+TODO
+2. improve from 1d to 3d model -> modules for sensor fusion - kalman??
+3. improve kinematics of model by assuming rocket loses mass
+4. make control system modelled to the dynamics of the system
+5. optimise everywhere, CFD tables, lookup tables, algorithms
+
+sources:
+Application of the Kalman Filter to Rocket Apogee Detection By David W. Schultz

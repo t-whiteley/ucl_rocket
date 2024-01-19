@@ -33,7 +33,7 @@ error_sum = 0
 ### MAIN LOOP
 
 C = FlightComp(dt, area, g, rho, Cd, thr, m, thr_time)
-P = Plot()
+P = Plot(ap_des)
 
 while C.M.t < duration:
     C.update(area_adj)

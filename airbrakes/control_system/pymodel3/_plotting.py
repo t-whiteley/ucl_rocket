@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 class Plot():
-    def __init__(self):
+    def __init__(self, ap_des):
         self.t_axis = []
 
         self.a_real = []
@@ -12,6 +12,7 @@ class Plot():
         self.v_fil = []
         self.s_fil = []
 
+        self.ap_des = ap_des
         self.ap_pred = []
         self.error = []
         self.servo_sig = []
@@ -49,6 +50,7 @@ class Plot():
         axs[0, 1].plot(self.t_axis, self.ap_pred, label="ap_pred", color='purple')
         axs[0, 1].axhline(y=max(self.s_real), linestyle='dotted', color='black', label=f'ap_real {round(max(self.s_real))}')
         axs[0, 1].axhline(y=max(self.s_fil), linestyle='dotted', color='green', label=f'ap_fil {round(max(self.s_fil))}')
+        axs[0, 1].axhline(y=self.ap_des, linestyle='dotted', color='blue', label=f'ap_des {self.ap_des}')
         axs[0, 1].axhline(y=0, color='black')
         axs[0, 1].legend()
         axs[0, 1].set_xlabel("Time (s)")
