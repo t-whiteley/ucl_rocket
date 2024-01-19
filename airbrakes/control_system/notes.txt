@@ -10,9 +10,10 @@ Extra
 
 
 TODO
-1. make _apogee robust to noise
-2. seperate into a model and main file
-3. make constants capital named constants
-4. make control system more realistic
-5. make kalman filter account for rotation
-6. CFD somewhere - lookup table?
+2. improve from 1d to 3d model -> modules for sensor fusion
+3. improve kinematics by assuming rocket loses mass
+4. make control system more realistic -> modelled to the dynamics of the system (1 for liquid, 1 for FIRE)
+5. Optimise everywhere, CFD table, lookup tables
+
+sources:
+Application of the Kalman Filter to Rocket Apogee Detection By David W. Schultz
