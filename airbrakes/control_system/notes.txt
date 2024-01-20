@@ -1,4 +1,4 @@
-Descrpiption
+Descrpiption of current implementation
 1. filter noise using const a. kalman filter -> measure (h, a), estimate (h, v, a)
 2. esimtate current apogee -> numerical differential eq solver (4th order runge-kutta)
 3. control system -> difference in ap_pred and ap_des to a PID and servo signal
@@ -18,8 +18,17 @@ TODO
 
 sources:
 Application of the Kalman Filter to Rocket Apogee Detection By David W. Schultz
+Barometric Apogee Detection Using the Kalman Filter By David W. Schultz
+Quaternion kinematics for the error-state Kalman filter Joan Sola
 
+Notes on moving from 1d to 3d -> gyro
+* sensor fusion algorithms: ahrs (for orientation): kalman/madgwick/complimentary
+* euler angles, quaternions or DCM
+* steps
+	* find g vector using accel - (for initial configuration?) and assume vert at t=0
+	* find quaternions and euler angles using madgwick from raw IMU
+	* low pass before kf?
+	* use baro + 6DOF IMU for a kalman filter
 
-Other notes
-* can use normal kalman filter with constant a model because near apogee its nearly constant
-* extended kalman filter for non linear system can be used but is complex
+Q
+* i might not need gyro, i can just calibrate and take the negative of the g vector

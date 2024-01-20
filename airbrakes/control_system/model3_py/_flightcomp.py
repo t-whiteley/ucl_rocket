@@ -1,4 +1,4 @@
-# here all the noise filterring and sensor fusion are done
+# here all the noise filterring and sensor fusion are done - currently 1d
 
 from _model import Model
 from _kf import KF

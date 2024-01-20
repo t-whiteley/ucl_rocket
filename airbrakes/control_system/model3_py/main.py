@@ -32,16 +32,16 @@ error_sum = 0
 
 ### MAIN LOOP
 
-C = FlightComp(dt, area, g, rho, Cd, thr, m, thr_time)
-P = Plot(ap_des)
+FC = FlightComp(dt, area, g, rho, Cd, thr, m, thr_time)
+PLT = Plot(ap_des)
 
-while C.M.t < duration:
-    C.update(area_adj)
+while FC.M.t < duration:
+    FC.update(area_adj)
 
 
     # ESTIMATE APOGEE HERE
-    if C.M.t > thr_time * 1.2:
-        ap_pred = predict_apogee(C.v, C.h, C.a, rho, m, area_adj, g)
+    if FC.M.t > thr_time * 1.2:
+        ap_pred = predict_apogee(FC.v, FC.h, FC.a, rho, m, area_adj, g)
     else:
         ap_pred = 0
     
@@ -66,6 +66,6 @@ while C.M.t < duration:
         servo_sig = 0
 
 
-    P.append(C.M.t, C.M.a_real, C.M.v_real, C.M.s_real, C.a, C.v, C.h, ap_pred, error, servo_sig)
+    PLT.append(FC.M.t, FC.M.a_real, FC.M.v_real, FC.M.s_real, FC.a, FC.v, FC.h, ap_pred, error, servo_sig)
 
-P.plot()
+PLT.plot()
