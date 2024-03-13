@@ -10,33 +10,23 @@ Descrpiption of current implementation
 	* _kf.py is a basic constant acceleration kalman filter for a 1d model, to be replaced (const accel approx becomes valid near apogee)
 
 
+explanation of the current control system
+https://drive.google.com/file/d/1SUEwMQSzJVFyoqiD_RvqsQ2awXXZ6cZL/view?usp=sharing
+
+plan for better AHRS implementation:
+https://drive.google.com/file/d/1FtFWEVXXc92_LPC655b5KEjsxmI0jamf/view?usp=sharing
+
+
 TODO
-(PRIORITY)	- improve from 1d to 3d model -> modules for sensor fusion - kalman??
-(PRIORITY)	- use the rocketpy package for a better model of the rocket
-			- improve kinematics of model: rocket loses mass, Cd from cfd, all params
-			- make control system modelled to the dynamics of the system - may need cfd for cd
-			- optimise everywhere, CFD tables, lookup tables, algorithms
-(FUTURE)	- AI for self-tuning PID controller??
+- (PRIORITY) improve from 1d to 3d model -> modules for sensor fusion - kalman??
+- (PRIORITY) use the rocketpy package for a better model of the rocket
+- improve kinematics of model: rocket loses mass, Cd from cfd, all params
+- make control system modelled to the dynamics of the system - may need cfd for cd
+- optimise everywhere, CFD tables, lookup tables, algorithms
+- (FUTURE) AI for self-tuning PID controller??
 
 sources:
 Application of the Kalman Filter to Rocket Apogee Detection By David W. Schultz
 Barometric Apogee Detection Using the Kalman Filter By David W. Schultz
 Quaternion kinematics for the error-state Kalman filter Joan Sola
-
-
-
-
-
-
-Plan to move from 1d to 3d -> gyro
-* sensor fusion algorithms: ahrs (for orientation): kalman/madgwick/complimentary
-* coordinate systems to be familiar with: euler angles, quaternions or DCM
-* steps
-	* find g vector using accel readings - calibrate at 0 and assume vertical at t=0
-	* use baro + 6DOF IMU for a kalman filter
-	* find quaternions and euler angles using (madgwick from raw IMU) (or kalman??)
-	* maybe implement low pass filter before kf?
-
-
-Q
-* i might not need gyro, i can just calibrate and take the negative of the g vector
+https://www.youtube.com/watch?v=T9jXoG0QYIA&t=334s
