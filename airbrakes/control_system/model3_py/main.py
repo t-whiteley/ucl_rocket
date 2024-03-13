@@ -56,6 +56,7 @@ while FC.M.t < duration:
         sig += ki * error_sum * dt
         sig += kd * (curr_sig - error)/dt
         
+        # basic model of servo signal
         area_adj += sig
         area_adj = min(max_A, area_adj)
         area_adj = max(min_A, area_adj)

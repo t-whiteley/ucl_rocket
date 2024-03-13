@@ -1,3 +1,5 @@
+# models all the sensors
+
 import numpy as np
 
 
@@ -25,7 +27,7 @@ class Model:
         self.A = area_adj
         self.t += self.dt
 
-        # NO NEED TO SUBTRACT G BECAUSE ITS ALREADY CENTERED AT 0 -> SENSOR WILL NOT BE
+        # NO NEED TO SUBTRACT G BECAUSE ITS ALREADY CENTERED AT 0 -> SOMETHING NEEDS TO DO THIS ON STARTUP
         self.a_real = self.__accel_curve()
         self.v_real += self.a_real * self.dt
         self.s_real += self.v_real * self.dt
