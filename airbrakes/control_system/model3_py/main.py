@@ -45,7 +45,7 @@ while FC.M.t < duration:
     else:
         ap_pred = 0
     
-    
+
     # CONTROL HERE
     if ap_pred > ap_des:
         error = ap_pred - ap_des
