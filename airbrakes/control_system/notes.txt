@@ -5,29 +5,36 @@ Descrpiption of current implementation
 4. file descriptions
 	* main.py is what gets executed, it is the airbrake control system loop running during flight and how the model should be run: "python3 main.py"
 	* apogee.py estimates apogee given current conditions using runge-kutta
-	* _model.py is a replacement for the sensor, it is a model that generates sensor data that feeds to:
-	* _flightcomp.py is a replacement for the main flight computer, it takes care of sensor fusion and noise filterring to give valid data to main.py
-	* _kf.py a basic constant acceleration kalman filter for a 1d model, to be replaced
+	* _model.py is a model for the sensor, it is a model that generates sensor data that feeds to:
+	* _flightcomp.py is a model for the main flight computer, it takes care of sensor fusion and noise filterring to give valid data to main.py
+	* _kf.py is a basic constant acceleration kalman filter for a 1d model, to be replaced (const accel approx becomes valid near apogee)
 
 
 TODO
-2. improve from 1d to 3d model -> modules for sensor fusion - kalman??
-3. improve kinematics of model by assuming rocket loses mass
-4. make control system modelled to the dynamics of the system
-5. optimise everywhere, CFD tables, lookup tables, algorithms
+(PRIORITY)	- improve from 1d to 3d model -> modules for sensor fusion - kalman??
+(PRIORITY)	- use the rocketpy package for a better model of the rocket
+			- improve kinematics of model by assuming rocket loses mass
+			- make control system modelled to the dynamics of the system
+			- optimise everywhere, CFD tables, lookup tables, algorithms
+(FUTURE)	- AI for adaptable PID controller??
 
 sources:
 Application of the Kalman Filter to Rocket Apogee Detection By David W. Schultz
 Barometric Apogee Detection Using the Kalman Filter By David W. Schultz
 Quaternion kinematics for the error-state Kalman filter Joan Sola
 
-Notes on moving from 1d to 3d -> gyro
+
+
+
+
+
+Plan to move from 1d to 3d -> gyro
 * sensor fusion algorithms: ahrs (for orientation): kalman/madgwick/complimentary
-* euler angles, quaternions or DCM
+* coordinate systems to be familiar with: euler angles, quaternions or DCM
 * steps
-	* find g vector using accel - (for initial configuration?) and assume vert at t=0
-	* find quaternions and euler angles using madgwick from raw IMU
-	* low pass before kf?
+	* find g vector using acceleration readings - (for initial configuration / calibration??) and assume vertical at t=0
+	* find quaternions and euler angles using (madgwick from raw IMU), (or kalman??)
+	* maybe implement low pass filter before kf?
 	* use baro + 6DOF IMU for a kalman filter
 
 Q
